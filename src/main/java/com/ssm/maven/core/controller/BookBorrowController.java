@@ -4,6 +4,7 @@ import com.ssm.maven.core.entity.BookBorrowRecord;
 import com.ssm.maven.core.service.BookBorrowService;
 import com.ssm.maven.core.util.ResponseUtil;
 import com.ssm.maven.core.util.TimestampUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -31,12 +33,15 @@ public class BookBorrowController {
         for(int i=0; i<idsStr.length; i++) {
             BookBorrowRecord bookBorrowRecord = new BookBorrowRecord(Integer.parseInt(idsStr[i]), user_id, new Timestamp(System.currentTimeMillis()),
                     BookBorrowRecord.akl1, 0, BigDecimal.ZERO, 0);
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", Integer.parseInt(idsStr[i]));
+            map.put("status", 1);
             try {
                 bookBorrowService.borrowBook(bookBorrowRecord);
+                bookBorrowService.changeBookStatus(map);
             } catch(Exception e) {
                 e.printStackTrace();
             }
-
         }
         result.put("success", true);
         log.info("request: user/borrow , ids: " + ids);
@@ -95,6 +100,25 @@ public class BookBorrowController {
         }
         log.info("request: user/renew , id: " + id);
         ResponseUtil.write(response, result);
+        return null;
+    }
+
+    @RequestMapping("/listRecordsByUserID")
+    public String listRecordsByUserID(@RequestParam(value = "user_id")String user_id, HttpServletResponse response) throws Exception {
+        JSONObject result = new JSONObject();
+        List<BookBorrowRecord> recordList = null;
+        Long total = 0L;
+        try {
+            recordList = bookBorrowService.findRecordsByUserID(Integer.parseInt(user_id));
+            total = bookBorrowService.getTotalRecordsByUserID(Integer.parseInt(user_id));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        JSONArray jsonArray = JSONArray.fromObject(recordList);
+        result.put("rows", jsonArray);
+        result.put("total", total);
+        ResponseUtil.write(response, result);
+        log.info("request: records/listRecordsByUserID, user_id: " + user_id);
         return null;
     }
 }

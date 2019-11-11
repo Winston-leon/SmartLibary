@@ -218,7 +218,7 @@
             &nbsp;作者：&nbsp;<input type="text" id="search_author" size="20"
                 onkeydown="if(event.keyCode==13) searchBook()"/>&nbsp;
             &nbsp;ISBN码：&nbsp;<input type="text" id="search_isbn" size="20"
-                                     onkeydown="if(event.keyCode==13) searchBook()"/>&nbsp;
+                                      onkeydown="if(event.keyCode==13) searchBook()"/>&nbsp;
             <a href="javascript:searchBook()" class="easyui-linkbutton" iconCls="icon-search" plain="true">搜索</a>
         </div>
     </div>

@@ -20,6 +20,16 @@
 		values(#{book_id},#{user_id},#{br_time},#{allowed_keep_length},#{is_done},#{arrearage},#{renew_times})
 	</insert>
 
+    <update id="changeBookStatus" parameterType="Map">
+        update my_ssm_book
+        <set>
+            <if test="status!=null ">
+                status=#{status}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
     <select id="findRecord" parameterType="Integer" resultType="BookBorrowRecord">
         select * from my_borrow_record
         where id=#{id}
@@ -53,4 +63,14 @@
         </set>
         where id=#{id}
     </update>
+
+    <select id="findRecordsByUserID" parameterType="Integer" resultMap="BookBorrowRecordResult">
+        select * from my_borrow_record
+        <where>
+            <if test="user_id!=null ">
+                and user_id = #{user_id}
+            </if>
+        </where>
+        ORDER BY id desc
+    </select>
 </mapper>

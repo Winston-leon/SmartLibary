@@ -41,7 +41,7 @@
         <%--}--%>
 
         function borrow() {
-            var selectedRows = $("#dg").datagrid("getSelections");
+            var selectedRows = $("#dg1").datagrid("getSelections");
             if(selectedRows.length == 0) {
                 $.messager.alert("系统提示", "请选择要借的图书！");
                 return;
@@ -53,7 +53,7 @@
             var strIds = [];
             var strTitles = []; //保存已经被借出的图书书名
             for(var i=0; i<selectedRows.length; i++) {
-                if(selectedRows[i].status == 0) {
+                if(selectedRows[i].status == 1) {
                     strTitles.push(selectedRows[i].title);
                 } else {
                     strIds.push(selectedRows[i].id);
@@ -61,8 +61,8 @@
             }
             //如果被选中的图书中有已经被借出的，系统将给出提示
             if(strTitles.length != 0) {
-                var titles = strTitles.join("\n");
-                $.messager.alert("系统提示", "以下图书已被借出：\n<font color=red>"+titles+"</font>请重新选择！");
+                var titles = strTitles.join("\t\r");
+                $.messager.alert("系统提示", "以下图书已被借出：\r\t<font color=red>"+titles+"</font>\r请重新选择！");
                 return;
             }
             var ids = strIds.join(",");
@@ -84,8 +84,12 @@
                 });
         }
 
+        function formatProPic(val, row) {
+            return "<img width=80 height=110 src='../" + val + "'>";
+        }
+
         function formatStatus(val, row) {
-            if(row.status == 0)
+            if(row.status == 1)
                 return "<div style='color:red;'>已借出</div>";
             else
                 return "<div style='color:gray;'>在架</div>";
@@ -95,10 +99,10 @@
 </head>
 
 <body style="margin:1px;">
-<div>
-    <table id="dg1" title="图书借还" class="easyui-datagrid" fitColumns="true" pagination="true" rownumbers="true"
-        url="${pageContext.request.contextPath}/book/listAll.do" fit="true"
-        toolbar="#tb">
+    <table id="dg1" title="图书借还" class="easyui-datagrid" fitColumns="true"
+           pagination="true" rownumbers="true"
+           url="${pageContext.request.contextPath}/book/listAll.do" fit="true"
+           toolbar="#tb">
         <thead>
             <tr>
                 <th field="cb" checkbox="true" align="center"></th>
@@ -119,7 +123,6 @@
             </tr>
         </thead>
     </table>
-</div>
 
     <div id="tb">
         <div>
