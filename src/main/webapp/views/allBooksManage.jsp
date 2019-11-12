@@ -168,9 +168,9 @@
 
         function formatStatus(val, row) {
             if (row.status == 1)
-                return "<div style='color:red;'>已上架</div>";
+                return "<div style='color:red;'>已借出</div>";
             else
-                return "<div style='color:gray;'>未上架</div>";
+                return "<div style='color:green;'>在架</div>";
         }
     </script>
 </head>
@@ -182,23 +182,23 @@
            url="${pageContext.request.contextPath}/book/listAll.do" fit="true"
 <%--           style="table-layout: fixed; width: 100%;"--%>
            toolbar="#tb">
-        <thead data-options="frozen:true">
+        <thead>
             <tr>
                 <th field="cb" checkbox="true" align="center"></th>
-                <th field="id" width="10" align="center" hidden="true">编号</th>
-                <th field="image_path" width="100" align="center" formatter="formatProPic">图片</th>
-                <th field="title" width="120" align="center">书名</th>
-                <th field="subtitle" width="120" align="center" hidden="true">副标题</th>
-                <th field="isbn" width="120" align="center">ISBN码</th>
-                <th field="author" width="120" align="center">作者</th>
-                <th field="translator" width="120" align="center">译者</th>
-                <th field="press" width="120" align="center">出版社</th>
-                <th field="price" width="70" align="center">市场价</th>
-                <th field="page" width="70" align="center">页数</th>
-                <th field="binding" width="70" align="center">装订方式</th>
-                <th field="status" width="70" align="center"
+                <th field="id" width="2%" align="center" hidden="true">编号</th>
+                <th field="image_path" width="7%" align="center" formatter="formatProPic">图片</th>
+                <th field="title" width="9%" align="center">书名</th>
+                <th field="subtitle" width="9%" align="center" hidden="true">副标题</th>
+                <th field="isbn" width="9%" align="center">ISBN码</th>
+                <th field="author" width="9%" align="center">作者</th>
+                <th field="translator" width="9%" align="center">译者</th>
+                <th field="press" width="9%" align="center">出版社</th>
+                <th field="price" width="5%" align="center">市场价</th>
+                <th field="page" width="5%" align="center">页数</th>
+                <th field="binding" width="5%" align="center">装订方式</th>
+                <th field="status" width="5%" align="center"
                     formatter="formatStatus">上架状态</th>
-                <th field="description" width="200" align="center">简介</th>
+                <th field="description" width="15%" align="center">简介</th>
             </tr>
         </thead>
     </table>

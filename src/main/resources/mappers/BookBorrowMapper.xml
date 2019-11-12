@@ -66,11 +66,12 @@
 
     <select id="findRecordsByUserID" parameterType="Integer" resultMap="BookBorrowRecordResult">
         select * from my_borrow_record
-        <where>
-            <if test="user_id!=null ">
-                and user_id = #{user_id}
-            </if>
-        </where>
+        WHERE user_id = #{user_id}
         ORDER BY id desc
+    </select>
+
+    <select id="getTotalRecordsByUserID" parameterType="Integer" resultType="Long">
+        select COUNT(*) from my_borrow_record
+        WHERE user_id = #{user_id}
     </select>
 </mapper>

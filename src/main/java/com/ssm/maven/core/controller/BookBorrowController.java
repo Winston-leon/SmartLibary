@@ -62,12 +62,16 @@ public class BookBorrowController {
             if(keepDays > akl) {
                 arrearage = BigDecimal.valueOf(BookBorrowRecord.feePerDay * (keepDays - akl));
             }
-            Map<String, Object> map = new HashMap<>();
-            map.put("id", Integer.parseInt(idsStr[i]));
-            map.put("br_time", new Timestamp(System.currentTimeMillis()));
-            map.put("is_done", 1);
-            map.put("arrearage", arrearage);
-            bookBorrowService.returnBook(map);
+            Map<String, Object> map1 = new HashMap<>();
+            Map<String, Object> map2 = new HashMap<>();
+            map1.put("id", Integer.parseInt(idsStr[i]));
+            map1.put("br_time", new Timestamp(System.currentTimeMillis()));
+            map1.put("is_done", 1);
+            map1.put("arrearage", arrearage);
+            map2.put("id", previous.getBookId());
+            map2.put("status", 0);
+            bookBorrowService.returnBook(map1);
+            bookBorrowService.changeBookStatus(map2);
         }
         result.put("success", true);
         log.info("request: user/return , ids: " + ids);
@@ -104,7 +108,10 @@ public class BookBorrowController {
     }
 
     @RequestMapping("/listRecordsByUserID")
-    public String listRecordsByUserID(@RequestParam(value = "user_id")String user_id, HttpServletResponse response) throws Exception {
+    public String listRecordsByUserID( @RequestParam(value = "page", required = false) String page,
+                                       @RequestParam(value = "rows", required = false) String rows,
+                                       @RequestParam(value = "success", required = false) String success,
+                                       @RequestParam(value = "user_id")String user_id, HttpServletResponse response) throws Exception {
         JSONObject result = new JSONObject();
         List<BookBorrowRecord> recordList = null;
         Long total = 0L;

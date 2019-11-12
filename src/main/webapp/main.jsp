@@ -159,7 +159,7 @@
                class="easyui-linkbutton"
                data-options="plain:true,iconCls:'icon-shuben'"
                style="width: 150px;">图书借还</a>
-            <a href="javascript:openTab(' 借阅记录', 'bookBorrow.jsp', 'icon-shuben')"
+            <a href="javascript:openTab(' 借阅记录', 'personalBookBorrowRecord.jsp', 'icon-shuben')"
                class="easyui-linkbutton"
                data-options="plain:true,iconCls:'icon-shuben'"
                style="width: 150px;">借阅记录</a>
